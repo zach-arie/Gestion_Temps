@@ -28,35 +28,26 @@
 		}
 		mysqli_free_result($resultat);
 	}
-	function fct_select_prm_tonalite($mysqli,$ValSelected){
-	//ValSelected, valeur de Prm_Type_Ordre qu'il faut sélectionner dans la liste finale
-		$requete="SELECT * FROM Parametrage WHERE Prm_Type_Id='TON' ORDER BY Prm_Char1;";
-		fct_select_general($mysqli,$requete,'Prm_Char1','Prm_Char1',$ValSelected);
     } 
-	function fct_select_prm_mode($mysqli,$ValSelected){
+	function fct_select_prm_typetravail($mysqli,$ValSelected){
 	//ValSelected, valeur de Prm_Type_Ordre qu'il faut sélectionner dans la liste finale
-		$requete="SELECT * FROM Parametrage WHERE Prm_Type_Id='MOD' ORDER BY Prm_Char1 ";
-		fct_select_general($mysqli,$requete,'Prm_Char1','Prm_Char1',$ValSelected);
+		$requete="SELECT * FROM Parametrage WHERE Prm_Type_Id='TYT' ORDER BY Prm_Txt1 ";
+		fct_select_general($mysqli,$requete,'','Prm_Txt1',$ValSelected);
     } 
-	function fct_select_prm_opus($mysqli,$ValSelected){
+	function fct_select_prm_scolaire($mysqli,$ValSelected){
 	//ValSelected, valeur de Prm_Type_Ordre qu'il faut sélectionner dans la liste finale
-		$requete="SELECT * FROM Parametrage WHERE Prm_Type_Id='OPS' ORDER BY Prm_Char1 ";
-		fct_select_general($mysqli,$requete,'','Prm_Char1',$ValSelected);
+		$requete="SELECT * FROM Parametrage WHERE Prm_Type_Id='ANC' ORDER BY Prm_Txt1 ";
+		fct_select_general($mysqli,$requete,'','Prm_Txt1',$ValSelected);
     } 
-	function fct_select_prm_niveau($mysqli,$ValSelected){
+	function fct_select_prm_typetiers($mysqli,$ValSelected){
 	//ValSelected, valeur de Prm_Type_Ordre qu'il faut sélectionner dans la liste finale
-		$requete="SELECT * FROM Parametrage WHERE Prm_Type_Id='NIV' ORDER BY Prm_Char1 ";
-		fct_select_general($mysqli,$requete,'','Prm_Char1',$ValSelected);
-    } 
-	function fct_select_prm_TypeOeuvre($mysqli,$ValSelected){
-	//ValSelected, valeur de Prm_Type_Ordre qu'il faut sélectionner dans la liste finale
-		$requete="SELECT * FROM Parametrage WHERE Prm_Type_Id='OTY' ORDER BY Prm_Char1 ";
-		fct_select_general($mysqli,$requete,'','Prm_Char1',$ValSelected);
+		$requete="SELECT * FROM Parametrage WHERE Prm_Type_Id='TYE' ORDER BY Prm_Txt1 ";
+		fct_select_general($mysqli,$requete,'','Prm_Txt1',$ValSelected);
     } 
 	function fct_select_prm_parametrage($mysqli,$ValSelected){
 	//ValSelected, valeur de Prm_Type_Id qu'il faut sélectionner dans la liste finale
-		$requete="SELECT * FROM Parametrage WHERE Prm_Type_Ordre=0 ORDER BY Prm_Char1;";
-		fct_select_general($mysqli,$requete,'Prm_Type_Id','Prm_Char1',$ValSelected);
+		$requete="SELECT * FROM Parametrage WHERE Prm_Type_Ordre=0 ORDER BY Prm_Txt1;";
+		fct_select_general($mysqli,$requete,'Prm_Type_Id','Prm_Txt1',$ValSelected);
     } 	
 	function fct_select_compositeur($mysqli,$ValSelected){
 	//Requete     : Requete Parametrage à lancer
