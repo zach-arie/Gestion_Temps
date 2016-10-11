@@ -3,11 +3,13 @@
 	include_once('fctGeneral.function.php');
 	include_once("General/BDD/Connexion.php");
     // 0: pas de tri, 1: Croissant, 2:Decroissant
-	$Prm_T_C1=0 ; $Prm_T_C2=0 ; $Prm_T_N1=0 ; $Prm_T_N2=0 ; $PrmAppel="";$Prm_Type="";
+	$Prm_T_C1=0 ; $Prm_T_C2=0 ; $Prm_T_N1=0 ; $Prm_T_N2=0 ; $PrmAppel="";$Prm_Type=""; $Prm_T_D1="" ; $Prm_T_D2="" ;
 	if (isset($_COOKIE['Prm_T_C1'])){$Prm_T_C1=$_COOKIE['Prm_T_C1'];}
 	if (isset($_COOKIE['Prm_T_C2'])){$Prm_T_C2=$_COOKIE['Prm_T_C2'];}
 	if (isset($_COOKIE['Prm_T_N1'])){$Prm_T_N1=$_COOKIE['Prm_T_N1'];}
 	if (isset($_COOKIE['Prm_T_N2'])){$Prm_T_N2=$_COOKIE['Prm_T_N2'];}
+	if (isset($_COOKIE['Prm_T_D1'])){$Prm_T_D1=$_COOKIE['Prm_T_D1'];}
+	if (isset($_COOKIE['Prm_T_D2'])){$Prm_T_D2=$_COOKIE['Prm_T_D2'];}
     if (isset($_COOKIE['Prm_Type'])){$Prm_Type=$_COOKIE['Prm_Type'];}
     if (isset($_GET['arg1'])){$PrmAppel=$_GET['arg1'];}
 	$Prm_Ordre=0;$Prm_Char1=0;$Prm_Char2=0;$Prm_Num1=0;$Prm_Num2=0;$MSG1="";
@@ -24,14 +26,18 @@
 	if ($PrmAppel=='MDF'){
 		// on a eu une demande d'enregistrement
 		if (isset($_POST['Prm_Ordre'])){$Prm_Ordre=$_POST['Prm_Ordre'];}
-		if (isset($_POST['Prm_Char1'])){$Prm_Char1=html_entity_decode($_POST['Prm_Char1']);}
-		if (isset($_POST['Prm_Char2'])){$Prm_Char2=html_entity_decode($_POST['Prm_Char2']);}
-		if (isset($_POST['Prm_Num1'])) {$Prm_Num1=$_POST['Prm_Num1'];}
-		if (isset($_POST['Prm_Num2'])) {$Prm_Num2=$_POST['Prm_Num2'];}
+		if (isset($_POST['Prm_Txt1'])){$Prm_Txt1=html_entity_decode($_POST['Prm_Txt1']);}
+		if (isset($_POST['Prm_Txt2'])){$Prm_Txt2=html_entity_decode($_POST['Prm_Txt2']);}
+		if (isset($_POST['Prm_Int1'])) {$Prm_Int1=$_POST['Prm_Int1'];}
+		if (isset($_POST['Prm_Int2'])) {$Prm_Int2=$_POST['Prm_Int2'];}
+		if (isset($_POST['Prm_Dt1'])) {$Prm_Dt1=$_POST['Prm_Dt1'];}
+		if (isset($_POST['Prm_Dt2'])) {$Prm_Dt2=$_POST['Prm_Dt2'];}
 		if (strlen($Prm_Type)>=0){
 			if ($Prm_Ordre>0) {
-				$requete="UPDATE Parametrage set Prm_Char1='".$Prm_Char1."',Prm_Char2='".$Prm_Char2.
-					 "', Prm_Num1=".$Prm_Num1.",Prm_Num2=".$Prm_Num2." WHERE Prm_Type_Id='".$Prm_Type."' AND Prm_Type_Ordre=".$Prm_Ordre;
+				$requete="UPDATE Parametrage set Prm_Txt1='".$Prm_Txt1."',Prm_Txt2='".$Prm_Txt2.
+					 "', Prm_Int1=".$Prm_Int1.",Prm_Int2=".$Prm_Int2.
+					 "', Prm_Dt1='".$Prm_Dt1."',Prm_Dt2='".$Prm_Dt2."'".
+					 " WHERE Prm_Type_Id='".$Prm_Type."' AND Prm_Type_Ordre=".$Prm_Ordre;
 				if (mysqli_query($mysqli,$requete)){
 					setcookie('Prm_Ordre',$Prm_Ordre, time() + 24*3600);
 				} else { 
@@ -56,8 +62,8 @@
 				}
 				mysqli_free_result($requete);
 				if ($Prm_Ordre>0){
-					$RequeteSelect="INSERT INTO Parametrage (Prm_Type_Id,Prm_Type_Ordre,Prm_Char1,Prm_Char2,Prm_Num1,Prm_Num2,Prm_Image) Values ('"
-					               .$Prm_Type."',".$Prm_Ordre.",'".$Prm_Char1."','".$Prm_Char2."',".$Prm_Num1.",".$Prm_Num2.",'')";
+					$RequeteSelect="INSERT INTO Parametrage (Prm_Type_Id,Prm_Type_Ordre,Prm_Txt1,Prm_Txt2,Prm_Int1,Prm_Int2,Prm_Dt1,Prm_Dt2,Prm_Image) Values ('"
+					               .$Prm_Type."',".$Prm_Ordre.",'".$Prm_Txt1."','".$Prm_Txt2."',".$Prm_Int1.",".$Prm_Int2.",'".$Prm_Dt1."','".$Prm_Dt2."','')";
                                         $requete=mysqli_query($mysqli,$RequeteSelect);
 					if (!$requete) {
 						$message  = 'Requête invalide : ' . mysql_error($mysqli) . "\n";
@@ -88,12 +94,13 @@
 			setcookie('Prm_T_N2',$_POST['Tri_Num2'], time() + 24*3600);
 			$Prm_T_N2=$_POST['Prm_T_N2'];
 		}
+		
 	} elseif ($PrmAppel=='TRD'){
 		if (isset($_COOKIE['Prm_T_C1'])){unset($_COOKIE['Prm_T_C1']);}
 		if (isset($_COOKIE['Prm_T_C2'])){unset($_COOKIE['Prm_T_C2']);}
 		if (isset($_COOKIE['Prm_T_N1'])){unset($_COOKIE['Prm_T_N1']);}
 		if (isset($_COOKIE['Prm_T_N2'])){unset($_COOKIE['Prm_T_N2']);}
-		$Prm_T_C1=0 ; $Prm_T_C2=0 ; $Prm_T_N1=0 ; $Prm_T_N2=0 ;
+		$Prm_T_C1=0 ; $Prm_T_C2=0 ; $Prm_T_N1=0 ; $Prm_T_N2=0 
 	}
 		
 	// Définition des clauses
@@ -101,17 +108,17 @@
 	$ClauseOrder="";
 	if ($Prm_T_C1>0){
 		if ($Prm_T_C1==2){
-			$ClauseOrder= "Prm_Char1 DESC";
+			$ClauseOrder= "Prm_Txt1 DESC";
 		} elseif ($Prm_T_C1==1) {
-			$ClauseOrder="Prm_Char1 ASC";	
+			$ClauseOrder="Prm_Txt1 ASC";	
 		}
 	}
 	if ($Prm_T_C2>0){
 		$TmpClauseOrder="";
 		if ($Prm_T_C2==2){
-			$Prm_T_C2= "Prm_Char2 DESC";
+			$Prm_T_C2= "Prm_Txt2 DESC";
 		} elseif ($Prm_T_C2==1) {
-			$Prm_T_C2="Prm_Char2 ASC";	
+			$Prm_T_C2="Prm_Txt2 ASC";	
 		}
 		if (strlen($TmpClauseOrder)>0) {
 			if (strlen($ClauseOrder)>0){
@@ -124,9 +131,9 @@
 	if ($Prm_T_N1>0){
 		$TmpClauseOrder="";
 		if ($Prm_T_N1==2){
-			$TmpClauseOrder= "Prm_Num1 DESC";
+			$TmpClauseOrder= "Prm_Int1 DESC";
 		} elseif ($Prm_T_N1==1) {
-			$TmpClauseOrder="Prm_Num1 ASC";	
+			$TmpClauseOrder="Prm_Int1 ASC";	
 		}
 		if (strlen($TmpClauseOrder)>0) {
 			if (strlen($ClauseOrder)>0){
@@ -139,9 +146,9 @@
 	if ($Prm_Num2>0){
 		$TmpClauseOrder="";
 		if ($Prm_Num2==2){
-			$TmpClauseOrder= "Prm_Num2 DESC";
+			$TmpClauseOrder= "Prm_Int2 DESC";
 		} elseif ($Prm_Num2==1) {
-			$TmpClauseOrder="Prm_Num2 ASC";	
+			$TmpClauseOrder="Prm_Int2 ASC";	
 		}
 		if (strlen($TmpClauseOrder)>0) {
 			if (strlen($ClauseOrder)>0){
@@ -213,10 +220,10 @@
 					<tr>
 						<form name="Tri" action="Page_Parametrage.php?arg1=TRI" method="POST">
 							<td> Ordre 	  </td> 
-							<td> <button name="Tri_Char1" value="<?php echo fct_definir_ordre_tri($Prm_T_C1);?>">Char1</button></td>
-							<td> <button name="Tri_Char2" value="<?php echo fct_definir_ordre_tri($Prm_T_C2);?>">Char2</button></td>
-							<td> <button name="Tri_Num1" value="<?php echo fct_definir_ordre_tri($Prm_T_N1);?>">Num1</button></td>
-							<td> <button name="Tri_Num2" value="<?php echo fct_definir_ordre_tri($Prm_T_N2);?>">Num2</button></td>
+							<td> <button name="Tri_Char1" value="<?php echo fct_definir_ordre_tri($Prm_T_C1);?>">Txt1</button></td>
+							<td> <button name="Tri_Char2" value="<?php echo fct_definir_ordre_tri($Prm_T_C2);?>">Txt2</button></td>
+							<td> <button name="Tri_Num1" value="<?php echo fct_definir_ordre_tri($Prm_T_N1);?>">Int1</button></td>
+							<td> <button name="Tri_Num2" value="<?php echo fct_definir_ordre_tri($Prm_T_N2);?>">Int2</button></td>
 							<td> <button name="TRD" formaction="Page_Parametrage.php?arg1=TRD">INIT</button></td>
 						</form>
 					</tr>
@@ -224,23 +231,27 @@
 					if ($TotalPrm >=1){
 						while ($Resultat = mysqli_fetch_assoc($requete)){
 							echo "<tr><td>".$Resultat['Prm_Type_Ordre']."</td>";
-							echo "<td>".htmlentities($Resultat['Prm_Char1'])."</td>";
-							echo "<td>".htmlentities($Resultat['Prm_Char2'])."</td>";
-							echo "<td>".$Resultat['Prm_Num1']."</td>";
+							echo "<td>".htmlentities($Resultat['Prm_Txt1'])."</td>";
+							echo "<td>".htmlentities($Resultat['Prm_Txt2'])."</td>";
+							echo "<td>".$Resultat['Prm_Int1']."</td>";
 							if ($Zach_Verif>0){
 								// on n'autorise la modification que si authentifié
-								echo "<td>".$Resultat['Prm_Num2']."</td>";
+								echo "<td>".$Resultat['Prm_Int2']."</td>";
 								echo "<td><a href=\"Page_Parametrage.php?Param=".$Resultat['Prm_Type_Ordre']."\">Vers</a></td>";
 							} else {
-								echo "<td colspan=\"2\">".$Resultat['Prm_Num2']."</td>";
+								echo "<td colspan=\"2\">".$Resultat['Prm_Int2']."</td>";
 							}
+							echo "<td>".htmlentities($Resultat['Prm_Dt1'])."</td>";
+							echo "<td>".htmlentities($Resultat['Prm_Dt2'])."</td>";
 							echo "</tr>";
 							// valorisation des variables pour la zone de saisie
 							if ($Prm_Ordre==$Resultat['Prm_Type_Ordre']){
-								$Prm_Char1=$Resultat['Prm_Char1'];
-								$Prm_Char2=$Resultat['Prm_Char2'];
-								$Prm_Num1=$Resultat['Prm_Num1'];
-								$Prm_Num2=$Resultat['Prm_Num2'];
+								$Prm_Txt1=$Resultat['Prm_Txt1'];
+								$Prm_Txt2=$Resultat['Prm_Txt2'];
+								$Prm_Int1=$Resultat['Prm_Int1'];
+								$Prm_Int2=$Resultat['Prm_Int2'];
+								$Prm_Dt1=$Resultat['Prm_Dt1'];
+								$Prm_Dt2=$Resultat['Prm_Dt2'];								
 							}
 						}
 					} else {
@@ -252,10 +263,12 @@
 					<form name="Tri" action="Page_Parametrage.php?arg1=MDF" method="POST">
 					<tr>
 					<td><input type="hidden" Value="<?php echo $Prm_Ordre; ?>" name="Prm_Ordre"/><?php echo $Prm_Ordre; ?></td>
-					<td><input type="text" Value="<?php echo htmlentities($Prm_Char1); ?>"  name="Prm_Char1"/></td>
-					<td><input type="text" Value="<?php echo htmlentities($Prm_Char2); ?>"  name="Prm_Char2"/></td>
-					<td><input type="text" Value="<?php echo $Prm_Num1; ?>"   name="Prm_Num1"/></td>
-					<td><input type="text" Value="<?php echo $Prm_Num2; ?>"   name="Prm_Num2"/></td>
+					<td><input type="text" Value="<?php echo htmlentities($Prm_Txt1); ?>"  name="Prm_Txt1"/></td>
+					<td><input type="text" Value="<?php echo htmlentities($Prm_Txt2); ?>"  name="Prm_Txt2"/></td>
+					<td><input type="text" Value="<?php echo $Prm_Int1; ?>"   name="Prm_Int1"/></td>
+					<td><input type="text" Value="<?php echo $Prm_Int2; ?>"   name="Prm_Int2"/></td>
+					<td><input type="text" Value="<?php echo htmlentities($Prm_Dt1); ?>"  name="Prm_Dt1"/></td>
+					<td><input type="text" Value="<?php echo htmlentities($Prm_Dt2); ?>"  name="Prm_Dt2"/></td>
 					<td><button Name="Prm_Valid">Valider</button></td>
 					</tr>
 					</form>
