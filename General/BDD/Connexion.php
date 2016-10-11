@@ -28,7 +28,7 @@
                 $MsgConnexion[1]="<p>Connection sur BDD distante";
                 try {
                     //$bdd = new PDO('mysql:host=sql.free.fr;dbname=zach_catalogue;charset=utf8', 'zach.catalogue@free.fr', 'lolo150570');
-                    $mysqli = new mysqli('mysql.hostinger.fr', 'u315704242_zach', 'lolo150570', 'u315704242_catal');
+                    $mysqli = new mysqli('mysql.hostinger.fr', 'u251254031_zach', 'lolo150570', 'u251254031_gtemp');
                     if ($mysqli->connect_errno) {
                         echo "Errno: " . $mysqli->connect_errno . "\n";
                         die("Error: " . $mysqli->connect_error . "\n");
