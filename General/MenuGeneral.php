@@ -14,9 +14,9 @@
 	</ul>
 	<h1 class="TitreMenu">Parametrages</h1>
 	<ul>
-		<li><a href="/Catalogue/Page_Parametrage.php">Parametrages</a></li>
+		<li><a href="/Page_Parametrage.php">Parametrages</a></li>
 		<li><a href="#">Bibliotheque</a></li>
-		<li><a href="/Catalogue/General/BDD/Identification.php">Identification</a></li>
+		<li><a href="/General/BDD/Identification.php">Identification</a></li>
 	</ul>
 </nav>
 
